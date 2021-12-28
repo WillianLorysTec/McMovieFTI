@@ -6,10 +6,10 @@ namespace McMovieFTI.DataContext
 {
     public class DataSql
     {
-       public const string connectionstring = "Server=localhost;Database=MercadinhoSJ;Trusted_Connection=True;";
-        public IEnumerable<Category> SelectALL()
+       public const string connectionstring = "Server=localhost;Database=Film;Trusted_Connection=True;";
+        public IEnumerable<Categorys> SelectALL()
         {
-            const string sqlselectALL = "SELECT * FROM [Cliente]";
+            const string sqlselectALL = "SELECT * FROM [Films]";
 
 
             try
@@ -17,7 +17,7 @@ namespace McMovieFTI.DataContext
                 using (SqlConnection connection = new SqlConnection(connectionstring))
                 {
                     connection.Open();
-                    var categories = connection.Query<Category>(sqlselectALL);
+                    var categories = connection.Query<Categorys>(sqlselectALL);
 
                     return categories;
 
@@ -28,11 +28,11 @@ namespace McMovieFTI.DataContext
 
                 Console.Error.WriteLine(e.Message);
 
-                return Enumerable.Empty<Category>();
+                return Enumerable.Empty<Categorys>();
             }
         }
 
-        public IEnumerable<Category> SelectById(int ID)
+        public IEnumerable<Categorys> SelectById(int ID)
         {
             
             const string sqlselectID = "SELECT * FROM [Cliente] WHERE Id = @ID";
@@ -43,7 +43,7 @@ namespace McMovieFTI.DataContext
                 {
                     connection.Open();
 
-                    var categories = connection.Query<Category>(sqlselectID, new
+                    var categories = connection.Query<Categorys>(sqlselectID, new
                     {
                         Id = ID
                     });
@@ -58,15 +58,15 @@ namespace McMovieFTI.DataContext
                 Console.Error.WriteLine(e.Message);
             }
 
-            return Enumerable.Empty<Category>();
+            return Enumerable.Empty<Categorys>();
             
         }
 
-        public void Insert(string name, string telephone, string rg, string cpf, bool Active)
+        public void Insert(string title, decimal imdb, decimal price, string category )
         {
-            var sqlInsert = @"INSERT INTO [Cliente]
-                            VALUES ( @name, @telephone, 
-                            @rg, @cpf, @Active)";
+            var sqlInsert = @"INSERT INTO [Films]
+                            VALUES ( @title, @imdb, 
+                            @price, @category)";
 
             try
             {
@@ -76,11 +76,10 @@ namespace McMovieFTI.DataContext
 
                     var rows = connection.Execute(sqlInsert, new
                     {
-                        name,
-                        telephone,
-                        rg,
-                        cpf,
-                        Active
+                        title,
+                        imdb,
+                        price,
+                        category
 
                     });
 
