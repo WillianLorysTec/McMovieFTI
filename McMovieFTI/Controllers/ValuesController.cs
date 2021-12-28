@@ -14,7 +14,7 @@ namespace McMovieFTI.Controllers
         // GET: /categories
 
         [HttpGet]
-        public async Task<ActionResult<Categorys>> Get()
+        public async Task<ActionResult<Category>> Get()
         {
             var data = new DataContext.DataSql();
             return Ok(data.SelectALL());
@@ -37,12 +37,12 @@ namespace McMovieFTI.Controllers
         [EnableCors("AnotherPolicy")]
         [Route("post")]
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Categorys category)
+        public async Task<ActionResult> Post([FromBody] Category category)
         {
             if (ModelState.IsValid)
             {
                 var data = new DataSql();
-                data.Insert(category.Title, category.Imdb, category.Price, category.Category);
+                data.Insert(category.Title, category.Imdb, category.Price, category.Categorys);
                 return Ok(new { Message = "Atulizado com sucesso" });
 
             }

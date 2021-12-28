@@ -7,7 +7,7 @@ namespace McMovieFTI.DataContext
     public class DataSql
     {
        public const string connectionstring = "Server=localhost;Database=Film;Trusted_Connection=True;";
-        public IEnumerable<Categorys> SelectALL()
+        public IEnumerable<Category> SelectALL()
         {
             const string sqlselectALL = "SELECT * FROM [Films]";
 
@@ -17,7 +17,7 @@ namespace McMovieFTI.DataContext
                 using (SqlConnection connection = new SqlConnection(connectionstring))
                 {
                     connection.Open();
-                    var categories = connection.Query<Categorys>(sqlselectALL);
+                    var categories = connection.Query<Category>(sqlselectALL);
 
                     return categories;
 
@@ -28,11 +28,11 @@ namespace McMovieFTI.DataContext
 
                 Console.Error.WriteLine(e.Message);
 
-                return Enumerable.Empty<Categorys>();
+                return Enumerable.Empty<Category>();
             }
         }
 
-        public IEnumerable<Categorys> SelectById(int ID)
+        public IEnumerable<Category> SelectById(int ID)
         {
             
             const string sqlselectID = "SELECT * FROM [Cliente] WHERE Id = @ID";
@@ -43,7 +43,7 @@ namespace McMovieFTI.DataContext
                 {
                     connection.Open();
 
-                    var categories = connection.Query<Categorys>(sqlselectID, new
+                    var categories = connection.Query<Category>(sqlselectID, new
                     {
                         Id = ID
                     });
@@ -58,7 +58,7 @@ namespace McMovieFTI.DataContext
                 Console.Error.WriteLine(e.Message);
             }
 
-            return Enumerable.Empty<Categorys>();
+            return Enumerable.Empty<Category>();
             
         }
 
