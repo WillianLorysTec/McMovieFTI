@@ -7,7 +7,7 @@ namespace McMovieFTI.DataContext
     public class DataSql
     {
        public const string connectionstring = "Server=localhost;Database=Film;Trusted_Connection=True;";
-        public IEnumerable<Category> SelectALL()
+        public IEnumerable<Categorys> SelectALL()
         {
             const string sqlselectALL = "SELECT * FROM [Films]";
 
@@ -17,7 +17,7 @@ namespace McMovieFTI.DataContext
                 using (SqlConnection connection = new SqlConnection(connectionstring))
                 {
                     connection.Open();
-                    var categories = connection.Query<Category>(sqlselectALL);
+                    var categories = connection.Query<Categorys>(sqlselectALL);
 
                     return categories;
 
@@ -28,14 +28,14 @@ namespace McMovieFTI.DataContext
 
                 Console.Error.WriteLine(e.Message);
 
-                return Enumerable.Empty<Category>();
+                return Enumerable.Empty<Categorys>();
             }
         }
 
-        public IEnumerable<Category> SelectById(int ID)
+        public IEnumerable<Categorys> SelectById(int ID)
         {
             
-            const string sqlselectID = "SELECT * FROM [Cliente] WHERE Id = @ID";
+            const string sqlselectID = "SELECT * FROM [Films] WHERE Id = @ID";
 
             try
             {
@@ -43,7 +43,7 @@ namespace McMovieFTI.DataContext
                 {
                     connection.Open();
 
-                    var categories = connection.Query<Category>(sqlselectID, new
+                    var categories = connection.Query<Categorys>(sqlselectID, new
                     {
                         Id = ID
                     });
@@ -58,7 +58,7 @@ namespace McMovieFTI.DataContext
                 Console.Error.WriteLine(e.Message);
             }
 
-            return Enumerable.Empty<Category>();
+            return Enumerable.Empty<Categorys>();
             
         }
 
@@ -92,9 +92,9 @@ namespace McMovieFTI.DataContext
             }
         }
 
-        public void Edit(int id, string name, string telephone, string rg, string cpf, bool active)
+        public void Edit(int id, string title, decimal imdb, decimal price, string category)
         {
-            const string updateById = "UPDATE [Cliente] SET Name = @name, Telephone = @telephone, RG = @rg, CPF = @cpf, Active = @active WHERE Id = @id ";
+            const string updateById = "UPDATE [Films] SET Title = @title, Imdb = @imdb, Price = @price, Category = @category WHERE Id = @id ";
 
             try
             {
@@ -104,11 +104,10 @@ namespace McMovieFTI.DataContext
 
                     var rows = connection.Execute(updateById, new
                     {
-                        Name = name,
-                        Telephone = telephone,
-                        RG = rg,
-                        CPF = cpf,
-                        Active = active,
+                        Title = title,
+                        Imdb = imdb,
+                        Price = price,
+                        Category = category,
                         Id = id
 
                     });
@@ -125,7 +124,7 @@ namespace McMovieFTI.DataContext
         public void Delete(int id)
         {
 
-            const string deleteById = "DELETE FROM [Cliente] WHERE Id = @id";
+            const string deleteById = "DELETE FROM [Films] WHERE Id = @id";
 
             try
             {

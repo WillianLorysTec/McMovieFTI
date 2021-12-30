@@ -14,72 +14,73 @@ namespace McMovieFTI.Controllers
         // GET: /categories
 
         [HttpGet]
-        public async Task<ActionResult<Category>> Get()
+        public async Task<ActionResult<Categorys>> Get()
         {
             var data = new DataContext.DataSql();
             return Ok(data.SelectALL());
 
         }
 
+        // GET categories/5
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Categorys>> Get(int id)
+        {
 
+            var data = new DataContext.DataSql();
+            return Ok(data.SelectById(id));
 
-        //// GET categories/5
-        //[HttpGet("{id:int}")]
-        //public async Task<ActionResult<Category>> Get(int id)
-        //{
+        }
 
-        //     var data = new DataContext.DataSql();
-        //     return Ok(data.SelectById(id));
-
-        //}
-
-        // POST categories
+        // POST categories/post
         [EnableCors("AnotherPolicy")]
         [Route("post")]
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Category category)
+        public async Task<ActionResult> Post([FromBody] Categorys category)
         {
             if (ModelState.IsValid)
             {
                 var data = new DataSql();
-                data.Insert(category.Title, category.Imdb, category.Price, category.Categorys);
+                data.Insert(category.Title, category.Imdb, category.Price, category.Category);
                 return Ok(new { Message = "Atulizado com sucesso" });
 
             }
             return BadRequest(new { Message = "verifique o modelo " });
 
         }
-    }
+
+
+
+
+        // PUT categories/put/5
+        [EnableCors("AnotherPolicy")]
+        [HttpPut("put")]
+        public async Task<ActionResult> Put([FromBody] Categorys category)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var data = new DataContext.DataSql();
+                data.Edit(category.Id, category.Title, category.Imdb, category.Price, category.Category);
+
+
+                return Ok(new { message = "Atualizado com sucesso " });
+
+            }
+            return BadRequest(new { Message = "verifique o modelo" });
+        }
+
+
+        //DELETE categories/5
+        
+        [HttpDelete("del/{id}")]
+     
+        public async Task<ActionResult> Delete(int id)
+        {
+            var data = new DataContext.DataSql();
+            data.Delete(id);
+
+            return Ok();
+        }
+
+    } 
 }
-
-    //    // PUT categories/5
-    //    [HttpPut("{id}")]
-    //    public async Task<ActionResult> Put(int id, [FromBody] Category category)
-    //    {
-
-    //        if (id.Equals(null))
-    //        {
-    //            return BadRequest(new { Message = "Id nulo?"});
-    //        }
-    //        if (ModelState.IsValid)
-    //        {
-    //            var data = new DataContext.DataSql();
-    //            data.Edit(id, category.Name, category.Telephone, category.RG, category.CPF, category.Active);
-    //            return Ok();
-
-    //        }
-    //        return BadRequest(new { Message = "verifique o modelo"});
-    //    }
-
-    //    // DELETE categories/5
-    //    [HttpDelete("{id}")]
-    //    public async Task<ActionResult> Delete(int id)
-    //    {
-    //        var data = new DataContext.DataSql();
-    //        data.Delete(id);
-
-    //        return Ok();
-    //    }
-
-    //}
-    //} 
